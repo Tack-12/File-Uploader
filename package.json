@@ -1,0 +1,40 @@
+{
+  "name": "file-uploader",
+  "version": "1.0.0",
+  "description": "A stripped down version of a file uploading app to upload file and share its link to other users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tack-12/File-Uploader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Tack-12/File-Uploader/issues"
+  },
+  "homepage": "https://github.com/Tack-12/File-Uploader#readme",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.5.0",
+    "@prisma/client": "^7.5.0",
+    "@quixo3/prisma-session-store": "^3.1.19",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/express-session": "^1.18.2",
+    "@types/node": "^25.5.0",
+    "@types/pg": "^8.18.0",
+    "prisma": "^7.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
