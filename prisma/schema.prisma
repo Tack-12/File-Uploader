@@ -19,3 +19,11 @@ model Session {
   expiresAt   DateTime
 }
 
+model users {
+ id         Int    @id @default(autoincrement())  
+ firstname  String 
+ lastname  String
+ username  String  @unique
+ password String
+ 
+}
