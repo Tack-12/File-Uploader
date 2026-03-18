@@ -88,3 +88,16 @@ export const showFile = async (req: Request, res: Response, next: NextFunction) 
         }
 }
 
+export const deleteFile = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+                const file_id = req.params.id
+                await prisma.files.delete({
+                        where: {
+                                id: Number(file_id)
+                        }
+                });
+                res.redirect("/folder");
+        } catch (err) {
+                next(err);
+        }
+}

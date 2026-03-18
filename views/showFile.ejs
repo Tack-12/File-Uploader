@@ -23,8 +23,9 @@
                     Size: <%= file.size %> bytes
                     <br>
 
-                    <a href="/files/<%= file.id %>">View</a>
-                    <a href="/files/delete/<%= file.id %>">Delete</a>
+                    <form action="/folder/delete/<%= file.id %>" method="POST">
+                        <button>Delete</button>
+                    </form>
                 </li>
                 <hr>
             <% }) %>
