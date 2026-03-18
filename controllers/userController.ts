@@ -77,12 +77,12 @@ export const uploadFilesPost = async (req: Request, res: Response, next: NextFun
 
 export const showFile = async (req: Request, res: Response, next: NextFunction) => {
         try {
-                const rows = await prisma.files.findMany({
+                const files = await prisma.files.findMany({
                         where: {
                                 userId: req.user?.id
                         }
                 });
-                console.log(rows);
+                res.render("showFile", { files: files });
         } catch (err) {
                 next(err);
         }

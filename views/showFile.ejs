@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Files</title>
+</head>
+<body>
+
+    <h1>Your Files</h1>
+
+    <% if (files && files.length > 0) { %>
+        <ul>
+            <% files.forEach(file => { %>
+                <li>
+                    <strong><%= file.filename %></strong><br>
+
+                    Created at:
+                    <%= file.createdAt 
+                        ? new Date(file.createdAt).toLocaleString() 
+                        : "N/A" %>
+                    <br>
+
+                    Size: <%= file.size %> bytes
+                    <br>
+
+                    <a href="/files/<%= file.id %>">View</a>
+                    <a href="/files/delete/<%= file.id %>">Delete</a>
+                </li>
+                <hr>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No files found.</p>
+    <% } %>
+
+</body>
+</html>
