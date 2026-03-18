@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addUserGet, addUser, homePage, userLogin, uploadFiles, uploadFilesPost } from "../controllers/userController.ts";
+import { addUserGet, addUser, homePage, showFile, userLogin, uploadFiles, uploadFilesPost } from "../controllers/userController.ts";
 import { isAuth } from "../controllers/authMiddle.ts";
 import { multerSingleMid } from "../controllers/multerMid.ts";
 const userRoutes = Router();
@@ -18,6 +18,12 @@ userRoutes.post("/signUp", addUser);
 //User Post Files
 userRoutes.get("/upload", isAuth, uploadFiles);
 userRoutes.post("/upload", multerSingleMid, uploadFilesPost);
+
+
+//File Structure:
+userRoutes.get("/folder", isAuth, showFile);
+// userRoutes.get("/files/:id", isAuth, showFileInfo);
+// userRoutes.post("/deleteFile/:id", isAuth, deleteFile);
 
 
 export { userRoutes };

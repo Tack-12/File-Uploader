@@ -56,9 +56,33 @@ export const uploadFiles = (req: Request, res: Response, next: NextFunction) => 
 
 
 
-export const uploadFilesPost = (req: Request, res: Response, next: NextFunction) => {
+export const uploadFilesPost = async (req: Request, res: Response, next: NextFunction) => {
         try {
-                console.log(req.file);
+
+                await prisma.files.create({
+                        data: {
+                                userId: req.user?.id,
+                                filename: String(req.file?.originalname),
+                                path: String(req.file?.path)
+                        }
+
+                })
+
+                res.redirect("/folder");
+        } catch (err) {
+                next(err);
+        }
+}
+
+
+export const showFile = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+                const rows = await prisma.files.findMany({
+                        where: {
+                                userId: req.user?.id
+                        }
+                });
+                console.log(rows);
         } catch (err) {
                 next(err);
         }

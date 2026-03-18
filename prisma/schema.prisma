@@ -15,15 +15,23 @@ datasource db {
 model Session {
   id        String   @id
   sid       String   @unique
-  data      String   
-  expiresAt   DateTime
+  data      String
+  expiresAt DateTime
 }
 
 model users {
- id         Int    @id @default(autoincrement())  
- firstname  String 
- lastname  String
- username  String  @unique
- password String
- 
+  id        Int     @id @default(autoincrement())
+  firstname String
+  lastname  String
+  username  String  @unique
+  password  String
+  files     files[]
+}
+
+model files {
+  id       Int    @id @default(autoincrement())
+  user     users  @relation(fields: [userId], references: [id])
+  userId   Int
+  filename String
+  path     String
 }
