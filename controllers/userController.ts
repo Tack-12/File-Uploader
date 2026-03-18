@@ -48,7 +48,7 @@ export const addUser = async (req: Request, res: Response, next: NextFunction) =
 
 export const uploadFiles = (req: Request, res: Response, next: NextFunction) => {
         try {
-                res.render("addFiles");
+                res.render("addfile");
         } catch (err) {
                 next(err);
         }
@@ -56,10 +56,9 @@ export const uploadFiles = (req: Request, res: Response, next: NextFunction) => 
 
 
 
-export const uploadFilesPost = async (req: Request, res: Response, next: NextFunction) => {
+export const uploadFilesPost = (req: Request, res: Response, next: NextFunction) => {
         try {
-                const file = req.file['homework'];
-                const
+                console.log(req.file);
         } catch (err) {
                 next(err);
         }
