@@ -1,7 +1,10 @@
 import bcrypt from "bcryptjs";
+import multer from "multer";
 import type { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { prisma } from "../db/prisma.ts";
+
+const upload = multer({ dest: 'upload/' })
 
 export const homePage = (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -43,4 +46,22 @@ export const addUser = async (req: Request, res: Response, next: NextFunction) =
         }
 }
 
+export const uploadFiles = (req: Request, res: Response, next: NextFunction) => {
+        try {
+                res.render("addFiles");
+        } catch (err) {
+                next(err);
+        }
+}
+
+
+
+export const uploadFilesPost = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+                const file = req.file['homework'];
+                const
+        } catch (err) {
+                next(err);
+        }
+}
 

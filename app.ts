@@ -4,7 +4,7 @@ import "dotenv/config";
 import { prisma } from './db/prisma.ts';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import path from "node:path";
-import passport from 'passport';
+import { passport } from './utils/passport.ts';
 import { userRoutes } from './routes/userRouter.ts';
 
 
@@ -29,6 +29,7 @@ app.use(expressSession({
 }));
 
 app.use(passport.session());
+
 
 app.use(express.urlencoded({ extended: false }));
 

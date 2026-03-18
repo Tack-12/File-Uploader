@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { addUserGet, addUser, homePage, userLogin } from "../controllers/userController.ts";
+import { addUserGet, addUser, homePage, userLogin, uploadFiles, uploadFilesPost } from "../controllers/userController.ts";
+import { isAuth } from "../controllers/authMiddle.ts";
 const userRoutes = Router();
 
 
@@ -12,6 +13,10 @@ userRoutes.post("/logIn", userLogin);
 //User Add:
 userRoutes.get("/signUp", addUserGet)
 userRoutes.post("/signUp", addUser);
+
+//User Post Files
+userRoutes.get("/upload", isAuth, uploadFiles);
+userRoutes.post("/upload", uploadFilesPost);
 
 
 export { userRoutes };
