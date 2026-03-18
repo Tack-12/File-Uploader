@@ -26,6 +26,9 @@
                     <form action="/folder/delete/<%= file.id %>" method="POST">
                         <button>Delete</button>
                     </form>
+                    <form action="/folder/download/<%= file.id %>" method="POST">
+                        <button>Download</button>
+                    </form>
                 </li>
                 <hr>
             <% }) %>

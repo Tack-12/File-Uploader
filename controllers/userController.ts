@@ -3,6 +3,7 @@ import multer from "multer";
 import type { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { prisma } from "../db/prisma.ts";
+import path from "node:path";
 
 const upload = multer({ dest: 'upload/' })
 
@@ -63,7 +64,8 @@ export const uploadFilesPost = async (req: Request, res: Response, next: NextFun
                         data: {
                                 userId: req.user?.id,
                                 filename: String(req.file?.originalname),
-                                path: String(req.file?.path)
+                                path: String(req.file?.path),
+                                size: Number(req.file?.size)
                         }
 
                 })
@@ -101,3 +103,25 @@ export const deleteFile = async (req: Request, res: Response, next: NextFunction
                 next(err);
         }
 }
+
+export const downloadFile = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+                const file_id = req.params.id
+                const row = await prisma.files.findFirst({
+                        where: {
+                                id: Number(file_id)
+                        }
+                });
+                if (!row) {
+                        return res.status(500).send("Sorry Could not find the file you tried to delete");
+                }
+                const file_path = row.path;
+                const file_name = row.filename;
+                res.set('Content-Disposition', `attachment; filename="${file_name}"`)
+                res.sendFile(path.join(__dirname, "../..", file_path));
+
+        } catch (err) {
+                next(err);
+        }
+}
+ 
