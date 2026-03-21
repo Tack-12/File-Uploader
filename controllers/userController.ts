@@ -4,8 +4,7 @@ import type { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import { prisma } from "../db/prisma.ts";
 import path from "node:path";
-
-const upload = multer({ dest: 'upload/' })
+import { supabase } from "../db/supabase.ts";
 
 export const homePage = (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -59,12 +58,20 @@ export const uploadFiles = (req: Request, res: Response, next: NextFunction) => 
 
 export const uploadFilesPost = async (req: Request, res: Response, next: NextFunction) => {
         try {
+                if (!req.file) {
+                        return res.status(400).send("No file uploaded");
+                }
+                const file_buffer = req.file?.buffer;
+
+                await supabase.storage.from('files').upload(String(req.file?.path), file_buffer)
+
+                const url = supabase.storage.from('files').getPublicUrl(String(req.file.path));
 
                 await prisma.files.create({
                         data: {
                                 userId: req.user?.id,
                                 filename: String(req.file?.originalname),
-                                path: String(req.file?.path),
+                                path: url.data.publicUrl,
                                 size: Number(req.file?.size)
                         }
 
@@ -124,4 +131,4 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
                 next(err);
         }
 }
- 
+
