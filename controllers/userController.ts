@@ -133,10 +133,8 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
                         return res.status(500).send("Sorry Could not find the file you tried to delete");
                 }
                 const file_path = row.path;
-                const file_name = row.filename;
-                const { data } = await supabase.storage.from('files').download(file_name);
-                res.set('Content-Disposition', `attachment; filename="${file_name}"`)
-                res.send(data);
+                console.log(file_path);
+                res.redirect(file_path);
 
         } catch (err) {
                 next(err);
