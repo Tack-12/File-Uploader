@@ -61,16 +61,20 @@ export const uploadFilesPost = async (req: Request, res: Response, next: NextFun
                 if (!req.file) {
                         return res.status(400).send("No file uploaded");
                 }
+                const file_path = `${req.file.originalname}`;
                 const file_buffer = req.file?.buffer;
+                console.log(file_buffer)
 
-                await supabase.storage.from('files').upload(String(req.file?.path), file_buffer)
+                await supabase.storage.from('files').upload(file_path, file_buffer)
+                console.log(req.file);
 
-                const url = supabase.storage.from('files').getPublicUrl(String(req.file.path));
+                const url = supabase.storage.from('files').getPublicUrl(file_path);
+                console.log(url.data.publicUrl);
 
                 await prisma.files.create({
                         data: {
                                 userId: req.user?.id,
-                                filename: String(req.file?.originalname),
+                                filename: file_path,
                                 path: url.data.publicUrl,
                                 size: Number(req.file?.size)
                         }
@@ -99,12 +103,18 @@ export const showFile = async (req: Request, res: Response, next: NextFunction) 
 
 export const deleteFile = async (req: Request, res: Response, next: NextFunction) => {
         try {
-                const file_id = req.params.id
-                await prisma.files.delete({
+                const file_id = Number(req.params.id);
+                const file_name = await prisma.files.findUnique({
                         where: {
-                                id: Number(file_id)
+                                id: file_id
                         }
                 });
+                await prisma.files.delete({
+                        where: {
+                                id: file_id
+                        }
+                });
+                await supabase.storage.from('files').remove([`${file_name?.filename}`])
                 res.redirect("/folder");
         } catch (err) {
                 next(err);
@@ -124,8 +134,9 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
                 }
                 const file_path = row.path;
                 const file_name = row.filename;
+                const { data } = await supabase.storage.from('files').download(file_name);
                 res.set('Content-Disposition', `attachment; filename="${file_name}"`)
-                res.sendFile(path.join(__dirname, "../..", file_path));
+                res.send(data);
 
         } catch (err) {
                 next(err);
